@@ -67,9 +67,9 @@ function rewriteChunk(text, glued, stats) {
     );
     if (partner) {
       const sameAlpha = t.alpha !== null && t.alpha === partner.alpha;
-      const noAlpha = t.alpha === null && partner.alpha === null;
+      // same alpha on both: strip, look up, re-append; otherwise look up exactly as written
       const key = `${lookupKey(t, sameAlpha)}|${lookupKey(partner, sameAlpha)}`;
-      const mapped = sameAlpha || noAlpha ? PAIRS[key] : undefined;
+      const mapped = PAIRS[key];
       if (mapped) {
         t.out = result(t, mapped, sameAlpha ? t.alpha : null);
         partner.drop = true;
