@@ -29,6 +29,26 @@ test.each(["observatory:theme", "cagr-theme", "cagr-accounts-theme", "cagr-portf
     expect(document.documentElement.dataset.theme).toBe("light");
   },
 );
+const LEGACY = ["observatory:theme", "cagr-theme", "cagr-accounts-theme", "cagr-portfolio-theme"];
+test("choosing system after a carry-over survives a reload", () => {
+  localStorage.setItem("observatory:theme", "dark");
+  expect(initTheme()).toBe("dark");
+  setTheme("system");
+  expect(initTheme()).toBe("system");
+  expect(document.documentElement.dataset.theme).toBeUndefined();
+  for (const k of LEGACY) expect(localStorage.getItem(k)).toBeNull();
+});
+test("the new key wins over a legacy key, and the legacy key is removed", () => {
+  localStorage.setItem("cagrmeister:theme", "dark");
+  localStorage.setItem("cagr-theme", "light");
+  expect(initTheme()).toBe("dark");
+  expect(localStorage.getItem("cagr-theme")).toBeNull();
+});
+test("a second initTheme after a carry-over returns the same choice", () => {
+  localStorage.setItem("cagr-accounts-theme", "light");
+  expect(initTheme()).toBe("light");
+  expect(initTheme()).toBe("light");
+});
 test("a legacy 'system' carries nothing over", () => {
   localStorage.setItem("cagr-theme", "system");
   expect(initTheme()).toBe("system");

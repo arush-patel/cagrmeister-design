@@ -77,16 +77,27 @@ export function setTheme(next: string): ThemeChoice {
   return choice;
 }
 
-// Carry a choice saved under an older app's key over to the shared key, once.
+function removeKey(key: string): void {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Blocked storage: nothing to remove.
+  }
+}
+
+// Carry a choice saved under an older app's key over to the shared key, then drop the old keys,
+// so a later "Match system" (which clears only the shared key) is not undone on the next load.
 function carryOverLegacy(): void {
-  if (readKey(THEME_STORAGE_KEY) !== null) return;
-  for (const key of LEGACY_THEME_KEYS) {
-    const v = readKey(key);
-    if (v === "light" || v === "dark") {
-      writeStored(v);
-      return;
+  if (readKey(THEME_STORAGE_KEY) === null) {
+    for (const key of LEGACY_THEME_KEYS) {
+      const v = readKey(key);
+      if (v === "light" || v === "dark") {
+        writeStored(v);
+        break;
+      }
     }
   }
+  for (const key of LEGACY_THEME_KEYS) removeKey(key);
 }
 
 export function initTheme(): ThemeChoice {
