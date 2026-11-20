@@ -18,6 +18,8 @@ test.each([
   ['<a className="bg-blue-50 app-dark:bg-blue-950/30" />', '<a className="bg-highlight" />'],
   ['<a className="bg-white/70 app-dark:bg-gray-950/40" />', '<a className="bg-white/70 app-dark:bg-gray-950/40" />'],
   ['<a className="bg-gray-900 app-dark:bg-gray-100" />', '<a className="bg-gray-900 app-dark:bg-gray-100" />'],
+  ['<a className="!text-gray-900" />', '<a className="!text-text" />'],
+  ['<a className="text-gray-900!" />', '<a className="text-text!" />'],
   ['<a className="my-text-gray-900x" />', '<a className="my-text-gray-900x" />'],
   ['<p className="text-gray-500">Don\'t</p>', '<p className="text-muted">Don\'t</p>'],
   ['<a className={`px-2 ${on ? "bg-blue-600" : "bg-white"} text-gray-900`} />', '<a className={`px-2 ${on ? "bg-blue" : "bg-card"} text-text`} />'],

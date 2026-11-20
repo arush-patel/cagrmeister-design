@@ -2,18 +2,21 @@
 
 const COLOURS =
   "white|black|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\\d{2,3}";
-const PALETTE_RE = new RegExp(
-  `^(?:bg|text|border(?:-[trblxy])?|ring|divide|outline|fill|stroke|placeholder|from|via|to|shadow|accent|caret|decoration)-(?:${COLOURS})(?:\\/\\d+)?$`,
-);
+const PROPERTIES =
+  "bg|text|border(?:-[trblxyse])?|ring|ring-offset|divide|outline|fill|stroke|placeholder|from|via|to|shadow|inset-shadow|inset-ring|text-shadow|drop-shadow|accent|caret|decoration";
+const OPACITY = "(?:\\/(?:\\d+(?:\\.\\d+)?|\\[[^\\]]+\\]|\\([^)]+\\)))?";
+const PALETTE_RE = new RegExp(`^(?:${PROPERTIES})-(?:${COLOURS})${OPACITY}$`);
 const GRADIENT_RE = /^bg-(?:gradient|linear)-/;
 const HEX_LITERAL_RE = /(["'`])#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\1/g;
 const HEX_ARBITRARY_RE = /\[#[0-9a-fA-F]+\]/g;
-const TOKEN_RE = /[^\s"'`{}()<>,;=]+/g;
+// A token may hold one `(--var)` group, as in bg-gray-500/(--a).
+const TOKEN_RE = /(?:[^\s"'`{}()<>,;=]|\(--[^\s()]*\))+/g;
 const DESIGN_OK_RE = /\/\/\s*design-ok\s*$/;
 
-/** The utility of a class token: what follows its last variant prefix. */
-const utilityOf = (token) => token.slice(token.lastIndexOf(":") + 1);
+/** The utility of a class token: what follows its last variant prefix, without an important `!`. */
+const utilityOf = (token) => token.slice(token.lastIndexOf(":") + 1).replace(/^!|!$/g, "");
 
+export { PROPERTIES, COLOURS, OPACITY };
 export const isPaletteClass = (token) => PALETTE_RE.test(utilityOf(token));
 export const isThemeVariant = (token) =>
   token.includes("app-light:") || token.includes("app-dark:") || token.startsWith("dark:");

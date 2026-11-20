@@ -1,15 +1,20 @@
 // Pure logic for cagr-design-codemod: rewrites paired light/dark Tailwind classes into token classes.
 import { parse } from "@babel/parser";
 import { PAIRS, SINGLES } from "./class_map.mjs";
-import { isFlaggedClass } from "./check_core.mjs";
+import { isFlaggedClass, PROPERTIES, COLOURS } from "./check_core.mjs";
 
 // property (utility up to its colour, side suffix included), colour, optional alpha
-const UTILITY_RE =
-  /^((?:bg|text|border(?:-[trblxy])?|ring|divide|outline|fill|stroke|placeholder|from|via|to|shadow|accent|caret|decoration))-((?:white|black|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}))(?:\/(\d+))?$/;
+const UTILITY_RE = new RegExp(
+  `^(${PROPERTIES})-(${COLOURS})(?:\\/(\\d+(?:\\.\\d+)?|\\[[^\\]]+\\]|\\([^)]+\\)))?$`,
+);
 
 function parseToken(raw) {
   const parts = raw.split(":");
-  const utility = parts.pop();
+  const full = parts.pop();
+  // an important `!` leads or trails the utility and stays on the rewritten token
+  const lead = full.startsWith("!") ? "!" : "";
+  const trail = full.endsWith("!") && full.length > 1 ? "!" : "";
+  const utility = full.slice(lead.length, full.length - trail.length);
   const m = UTILITY_RE.exec(utility);
   const rest = [];
   let mode = "base";
@@ -20,6 +25,8 @@ function parseToken(raw) {
   }
   return {
     raw,
+    lead,
+    trail,
     mode,
     variants: rest.join(":"),
     property: m ? m[1] : null,
@@ -43,7 +50,7 @@ function lookupKey(t, alphaStripped) {
 }
 
 function result(t, mapped, alpha) {
-  const cls = withSide(t.property, mapped) + (alpha ? `/${alpha}` : "");
+  const cls = t.lead + withSide(t.property, mapped) + (alpha ? `/${alpha}` : "") + t.trail;
   return t.variants ? `${t.variants}:${cls}` : cls;
 }
 

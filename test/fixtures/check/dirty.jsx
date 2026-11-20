@@ -5,3 +5,7 @@ const grid = "#e5e7eb";
 <div className="bg-[#111827]" />
 const keep = "#ffffff"; // design-ok
 <a href="#top" />
+<p className="!text-gray-900 text-gray-900!" />
+<p className="bg-white/[0.7] bg-gray-500/(--a)" />
+<p className="border-s-gray-300 border-e-gray-300" />
+<p className="ring-offset-white inset-shadow-gray-200 inset-ring-gray-200 text-shadow-gray-200 drop-shadow-gray-200" />

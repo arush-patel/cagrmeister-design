@@ -20,3 +20,6 @@ export function sourceFiles(dirs) {
   for (const d of dirs) visit(d);
   return files;
 }
+
+/** The first given path that does not exist, or undefined. */
+export const missingPath = (dirs) => dirs.find((d) => !fs.existsSync(d));

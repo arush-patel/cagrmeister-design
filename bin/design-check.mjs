@@ -2,13 +2,18 @@
 // cagr-design-check [--no-hex] <dir…> — reports off-system colours; exits 1 on any finding.
 import fs from "node:fs";
 import { checkSource } from "./check_core.mjs";
-import { sourceFiles } from "./walk.mjs";
+import { missingPath, sourceFiles } from "./walk.mjs";
 
 const args = process.argv.slice(2);
 const hex = !args.includes("--no-hex");
 const dirs = args.filter((a) => !a.startsWith("--"));
 if (dirs.length === 0) {
   console.error("usage: cagr-design-check [--no-hex] <dir…>");
+  process.exit(2);
+}
+const missing = missingPath(dirs);
+if (missing !== undefined) {
+  console.error(`cagr-design-check: no such directory: ${missing}`);
   process.exit(2);
 }
 
