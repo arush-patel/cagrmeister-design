@@ -9,7 +9,7 @@ Requires React 19, react-dom 19, react-router 7 (peer dependencies) and Tailwind
 In `package.json`:
 
 ```json
-"@cagrmeister/design": "git+ssh://git@github.com/alchemyte/cagrmeister-design.git#v0.1.0"
+"@cagrmeister/design": "git+https://github.com/arush-patel/cagrmeister-design.git#v0.1.0"
 ```
 
 then `npm install`. Installing a git dependency clones the repo and runs `prepare` (a `tsc` build), which pulls the package's dev dependencies, so the first install takes about 20 s. `npm ci --ignore-scripts` skips `prepare`, leaves no `dist/` and fails loudly. The package needs Node 20 or later; Vite 7 and 8 need Node 20.19 or later.
