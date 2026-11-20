@@ -1,0 +1,3 @@
+/* Strict: drop Tailwind's default palette, then map the design tokens. The reset must come first. */
+@import "./theme-reset.css";
+@import "./theme.css";

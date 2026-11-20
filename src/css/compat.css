@@ -1,0 +1,13 @@
+/* app-dark / app-light variants that follow the three-state theme rule (stamped or OS-driven). */
+@custom-variant app-dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) { @slot; }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) { @slot; }
+  }
+}
+@custom-variant app-light {
+  &:where([data-theme="light"], [data-theme="light"] *) { @slot; }
+  @media (prefers-color-scheme: light) {
+    &:where(:root:not([data-theme="dark"]), :root:not([data-theme="dark"]) *) { @slot; }
+  }
+}

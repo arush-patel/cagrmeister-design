@@ -1,0 +1,150 @@
+/*
+ * CAGRMEISTER · Strategy Observatory — design system tokens per
+ * docs/superpowers/specs/2026-07-14-strategy-observatory-design.md
+ * Light theme, Bloomberg density + Linear clarity. No gradients / candlesticks / gauges.
+ */
+
+:root {
+  /* Warm finance-terminal palette (IBM Plex).
+   *
+   * FOUR surface levels, not two. --bg is the page ground, --card carries data, --panel carries
+   * CONTROLS (run rows, table headers) and --sunken is recessed. Without the middle two, a strip
+   * of controls and a strip of numbers are the same white separated by a hairline, which is the
+   * flatness the design review called out. */
+  --bg: #fbfbf9;
+  --card: #ffffff;
+  --panel: #f6f5f1;
+  --sunken: #f1efe9;
+  --text: #111214;
+  --ink-2: #2a2c30;
+  --secondary: #6b6d72;
+  --muted: #9a9ca1;
+  --border: #e6e5df;
+  --line-2: #ececea;
+  --line-strong: #d6d5cf;
+  --positive: #0a8f4e;
+  --pos-soft: #dff1e6;
+  --negative: #c8341f;
+  --neg-soft: #f7e0dc;
+  --warn: #b46b00;
+  --warn-soft: #fbf0dc;
+  --highlight: #eef4ff;
+  --row-alt: #fafaf7;
+  /* Entry-reason line palette is intentionally unchanged (red-free): blue/teal/purple/amber. */
+  --blue: #3457d5;
+  --accent-ink: #1a3ab8;
+  --purple: #7259C7;
+  --amber: #B7791F;
+
+  /* Cluster identity, locked across Signals / Book / Trades (design spec §7.1). Teal is C1
+     everywhere; the Book's combined NAV uses --blue so it is not confusable with either cluster. */
+  --c1: #178b7d;
+  --c2: #7b5fd0;
+  --c1-soft: rgba(23, 139, 125, 0.12);
+  --c2-soft: rgba(123, 95, 208, 0.12);
+
+  --shadow: 0 1px 2px rgba(20, 18, 12, 0.05);
+  --shadow-modal: 0 16px 48px rgba(16, 24, 40, 0.24);
+  --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.18);
+  --shadow-lift: 0 8px 24px rgba(16, 24, 40, 0.16);
+  --scrim: rgba(16, 24, 40, 0.45);
+  /* The chart tooltip is a floating dark chip in BOTH themes — it sits over the plot, not over the
+     page, so it does not follow the surface ramp. Its ink is therefore always light. */
+  --tooltip-bg: rgba(15, 23, 42, 0.92);
+  --tooltip-ink: #f8fafc;
+
+  --f-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Ink on a filled accent surface (primary buttons, selected chips); the same in both themes. */
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+
+/* Dark is a purpose-built counterpart, not an inversion: the accent hues lift so they hold on a
+ * dark ground, and the soft tints move from opaque pastels to alpha so they read on either.
+ *
+ * Three states, because the viewer has three. An explicit choice stamps data-theme on <html>; the
+ * default stamps nothing, and only prefers-color-scheme separates light from dark there. The media
+ * block is guarded so an explicit LIGHT choice beats a dark OS, and the stamped block repeats the
+ * set so the toggle wins in the other direction too.
+ *
+ * The two blocks carry IDENTICAL declarations. The duplication is deliberate: a shared class would
+ * not survive the un-stamped state, which is what most viewers see. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #15161b;
+    --card: #1c1e24;
+    --panel: #191b21;
+    --sunken: #141519;
+    --text: #eceded;
+    --ink-2: #d4d7dc;
+    --secondary: #9aa0a8;
+    --muted: #6e747d;
+    --border: #2c2f37;
+    --line-2: #24272e;
+    --line-strong: #3b3f49;
+    --positive: #35c07a;
+    --pos-soft: rgba(53, 192, 122, 0.16);
+    --negative: #f0705a;
+    --neg-soft: rgba(240, 112, 90, 0.16);
+    --warn: #dda23c;
+    --warn-soft: rgba(221, 162, 60, 0.15);
+    --highlight: #1e2433;
+    --row-alt: #20232a;
+    --blue: #7a95ee;
+    --accent-ink: #9db0f4;
+    --purple: #a78cf2;
+    --amber: #dda23c;
+    --c1: #33b5a3;
+    --c2: #a78cf2;
+    --c1-soft: rgba(51, 181, 163, 0.16);
+    --c2-soft: rgba(167, 140, 242, 0.16);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
+    --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.45);
+    --shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --scrim: rgba(0, 0, 0, 0.6);
+    --tooltip-bg: rgba(8, 10, 14, 0.94);
+    --tooltip-ink: #f8fafc;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15161b;
+  --card: #1c1e24;
+  --panel: #191b21;
+  --sunken: #141519;
+  --text: #eceded;
+  --ink-2: #d4d7dc;
+  --secondary: #9aa0a8;
+  --muted: #6e747d;
+  --border: #2c2f37;
+  --line-2: #24272e;
+  --line-strong: #3b3f49;
+  --positive: #35c07a;
+  --pos-soft: rgba(53, 192, 122, 0.16);
+  --negative: #f0705a;
+  --neg-soft: rgba(240, 112, 90, 0.16);
+  --warn: #dda23c;
+  --warn-soft: rgba(221, 162, 60, 0.15);
+  --highlight: #1e2433;
+  --row-alt: #20232a;
+  --blue: #7a95ee;
+  --accent-ink: #9db0f4;
+  --purple: #a78cf2;
+  --amber: #dda23c;
+  --c1: #33b5a3;
+  --c2: #a78cf2;
+  --c1-soft: rgba(51, 181, 163, 0.16);
+  --c2-soft: rgba(167, 140, 242, 0.16);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --scrim: rgba(0, 0, 0, 0.6);
+  --tooltip-bg: rgba(8, 10, 14, 0.94);
+  --tooltip-ink: #f8fafc;
+}

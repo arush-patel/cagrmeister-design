@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@source "./markup.html";
+@import "@cagrmeister/design/theme.css";
+@import "@cagrmeister/design/compat.css";
