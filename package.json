@@ -2,6 +2,10 @@
   "name": "@cagrmeister/design",
   "version": "0.1.0",
   "type": "module",
+  "bin": {
+    "cagr-design-check": "bin/design-check.mjs",
+    "cagr-design-codemod": "bin/design-codemod.mjs"
+  },
   "exports": {
     ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
     "./theme": { "types": "./dist/theme.d.ts", "default": "./dist/theme.js" },
@@ -20,6 +24,9 @@
     "pretest": "npm run build",
     "test": "vitest run",
     "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@babel/parser": "^7"
   },
   "peerDependencies": {
     "react": "^19",
