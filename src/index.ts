@@ -1,2 +1,12 @@
 export { useTheme } from "./react/useTheme.js";
 export type { ThemeChoice, ResolvedTheme } from "./theme.js";
+export { AppHeader } from "./components/AppHeader.js";
+export { ProfileMenu } from "./components/ProfileMenu.js";
+export { ThemeToggle } from "./components/ThemeToggle.js";
+export { TabStrip } from "./components/TabStrip.js";
+export type { Tab } from "./components/TabStrip.js";
+export { Panel } from "./components/Panel.js";
+export { InstrumentBar } from "./components/InstrumentBar.js";
+export { FigureBand } from "./components/FigureBand.js";
+export type { Figure } from "./components/FigureBand.js";
+export { Button } from "./components/Button.js";

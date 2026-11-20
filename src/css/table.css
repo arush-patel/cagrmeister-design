@@ -1,0 +1,48 @@
+/* Shared table chrome — lists.css:119–123, 144–150, 156–175 and the live subset of
+   base.css:160–165. Plan 26 tabs import this once; do not re-copy per feature. */
+
+.table-scroll-x {
+  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* lists.css:144–150 — cell padding and the hairline. */
+table th, table td {
+  padding: 5px 6px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+table td { border-bottom: 1px solid var(--line-2); color: var(--ink-2); }
+
+/* lists.css:156–175 — header as opaque sticky control surface; row hover.
+   `.row-hover` is a one-line add when a tab needs the class. */
+table th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line-strong);
+  position: sticky;
+  top: 0;
+  /* A header is a control surface, not data — and it must be OPAQUE, because rows scroll under it. */
+  background: var(--panel);
+}
+
+table tbody tr {
+  cursor: pointer;
+}
+
+table tbody tr:hover {
+  background: var(--highlight);
+}
+
+/* base.css:160–165 — All numbers in IBM Plex Mono with tabular figures.
+   `.tnum`, `.metric-value`, `.quadrant-count`, `.metric-subline` return with Trades/Book. */
+td {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
