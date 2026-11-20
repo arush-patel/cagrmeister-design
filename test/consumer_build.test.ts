@@ -24,8 +24,11 @@ test("strict.css removes the default palette and keeps every token", async () =>
 
 test("compat.css makes app-dark follow the three-state rule", async () => {
   const out = await buildConsumer("compat");
+  // Anchor on the generated app-dark utility, not on tokens.css (which has the same selectors).
   expect(out.css).toMatch(
-    /@media \(prefers-color-scheme: dark\)[\s\S]*:root:not\(\[data-theme="?light"?\]\)/,
+    /\.app-dark\\:text-gray-100:where\(\[data-theme="?dark"?\][^{]*\{\s*color:\s*var\(--color-gray-100\)/,
   );
-  expect(out.css).toMatch(/\[data-theme="?dark"?\][\s\S]*color/);
+  expect(out.css).toMatch(
+    /@media \(prefers-color-scheme: dark\)\s*\{\s*\.app-dark\\:text-gray-100:where\(:root:not\(\[data-theme="?light"?\]\)[^{]*\{\s*color:\s*var\(--color-gray-100\)/,
+  );
 });
