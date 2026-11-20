@@ -48,7 +48,7 @@ Implemented by, in order: `AppHeader` (`shell-brand`) containing `ProfileMenu` a
 
 Numbers right-aligned in Mono; 9.5px uppercase sticky headers on `panel`; hairline rows; `highlight` on hover.
 
-Implemented by: `table.css`, which styles bare `table`, `th`, `td`, `tbody tr` and `tbody tr:hover` (background `--highlight`), plus `.table-scroll-x` for horizontal scroll. Header cells use `--panel`, `position: sticky`, 9.5px uppercase. Right-align number cells and give them `font-mono tabular-nums` in your own markup.
+Implemented by: `table.css`, which styles bare `table`, `th`, `td`, `tbody tr` and `tbody tr:hover` globally: `td` is right-aligned, mono and tabular-nums; `th` is 9.5px uppercase, sticky, on `--panel`; rows get hairlines and a `--highlight` hover. `.table-scroll-x` adds horizontal scroll. It is unlayered, so it beats Tailwind utilities on cells.
 
 ## Token reference
 

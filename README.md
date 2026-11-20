@@ -12,7 +12,7 @@ In `package.json`:
 "@cagrmeister/design": "git+ssh://git@github.com/alchemyte/cagrmeister-design.git#v0.1.0"
 ```
 
-then `npm install`. The package builds itself on install (`prepare`).
+then `npm install`. Installing a git dependency clones the repo and runs `prepare` (a `tsc` build), which pulls the package's dev dependencies, so the first install takes about 20 s. `npm ci --ignore-scripts` skips `prepare`, leaves no `dist/` and fails loudly. The package needs Node 20 or later; Vite 7 and 8 need Node 20.19 or later.
 
 ## Wire it up
 
@@ -25,18 +25,33 @@ then `npm install`. The package builds itself on install (`prepare`).
 // src/main.jsx
 import "@cagrmeister/design/fonts.css";
 import "@cagrmeister/design/components.css";
-import "@cagrmeister/design/table.css";
 import { initTheme } from "@cagrmeister/design/theme";
 initTheme();
 ```
 
-CSS entry points: `theme.css` (tokens + Tailwind mapping), `compat.css` (`app-dark:` / `app-light:` variants, for migration), `strict.css` (palette reset + `theme.css`), `fonts.css`, `components.css`, `table.css`.
+```js
+import "@cagrmeister/design/table.css"; // only once your tables follow DESIGN.md section 8
+```
+
+`table.css` styles every `th` and `td` globally and is unlayered, so it overrides Tailwind classes on cells (alignment, colour). Import it only once the app's tables follow DESIGN.md section 8. Until then leave it out, and move any cell alignment or colour onto the table chrome the app is building.
+
+CSS entry points: `theme.css` (tokens + Tailwind mapping), `compat.css` (`app-dark:` / `app-light:` variants, for migration), `strict.css` (palette reset + `theme.css`; it replaces both `theme.css` and `compat.css`), `fonts.css`, `components.css`, `table.css`.
 
 `strict.css` is an entry point of its own because the palette reset (`--color-*: initial`) must come before the token mapping, and one file guarantees the order.
 
 ## Components
 
 Import from `@cagrmeister/design`. Components carry no CSS of their own; import `components.css`.
+
+`Button`, `Panel` and the others accept `className` for extra hooks, but their own declarations (size, padding, colour) live in unlayered CSS and win over Tailwind utilities. To change layout, wrap the component, or use the `!` important modifier on that utility (for example `!px-2`).
+
+### One react-router
+
+`TabStrip` imports `NavLink` from `react-router`. An app that mounts its router from `react-router-dom` must resolve the same `react-router`, or two copies load and the page goes blank. Check with `npm ls react-router` (exactly one version), and add this to `vite.config`:
+
+```js
+resolve: { dedupe: ["react", "react-dom", "react-router"] },
+```
 
 | Component | Props |
 |---|---|
